@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (checkWin(currentPlayer)) {
                 highlightWinnerCells(winningCombinations.find(combination => combination.every(index => board[index] === currentPlayer)));
-                messageBox.textContent = "You Won the Game!";
+                messageBox.textContent = "You Won the Game! Congrats!!:)";
                 messageBox.style.display = 'block';
                 checkWinAndPlaySound(currentPlayer);
                 gameEnded = true;
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (checkWin(computerMark)) {
             highlightWinnerCells(winningCombinations.find(combination => combination.every(index => board[index] === currentPlayer)));
-            messageBox.textContent = "Computer won the game! Game over.";
+            messageBox.textContent = "Computer Won the Game! Game over:(";
             messageBox.style.display = 'block';
             checkLossAndPlaySound(currentPlayer);
             gameEnded = true;
