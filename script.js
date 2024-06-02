@@ -6,8 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chooseOButton = document.getElementById('chooseO');
     const chooseMark = document.getElementById('chooseMark');
     const messageBox = document.getElementById('messageBox');
-    const strike = document.getElementById("strike");
-
+    
     let currentPlayer = 'X';
     let playerMark = 'X';
     let computerMark = 'O';
@@ -69,9 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function minimax(newBoard, player) {
+    function minimax(newBoard, player, difficulty = 0.9) {
         let availableSpots = newBoard.map((val, idx) => val === null ? idx : null).filter(val => val !== null);
-
+    
         if (minimaxcheckWin(newBoard, playerMark)) {
             return { score: -10 };
         } else if (minimaxcheckWin(newBoard, computerMark)) {
@@ -79,25 +78,25 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (availableSpots.length === 0) {
             return { score: 0 };
         }
-
+    
         let moves = [];
         for (let i = 0; i < availableSpots.length; i++) {
             let move = {};
             move.index = availableSpots[i];
             newBoard[availableSpots[i]] = player;
-
+    
             if (player === computerMark) {
-                let result = minimax(newBoard, playerMark);
+                let result = minimax(newBoard, playerMark, difficulty);
                 move.score = result.score;
             } else {
-                let result = minimax(newBoard, computerMark);
+                let result = minimax(newBoard, computerMark, difficulty);
                 move.score = result.score;
             }
-
+    
             newBoard[availableSpots[i]] = null;
             moves.push(move);
         }
-
+    
         let bestMove;
         if (player === computerMark) {
             let bestScore = -10000;
@@ -116,10 +115,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
-
+    
+        // Introduce randomness based on the difficulty level
+        if (Math.random() > difficulty) {
+            bestMove = Math.floor(Math.random() * moves.length);
+        }
+    
         return moves[bestMove];
     }
-
     function checkWin(player) {
         return winningCombinations.some(combination => combination.every(index => board[index] === player));
     }
